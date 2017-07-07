@@ -43,7 +43,9 @@ class Gpdb < Formula
                           "--prefix=#{prefix}"
     # system "cmake", ".", *std_cmake_args
     system "make", "install" # if this fails, try separate make/make install steps
-    system "cp", "gpAux/gpdemo/demo_cluster.sh", "#{prefix}"
+    system "mkdir", "#{prefix}/demo"
+    system "cp", "gpAux/gpdemo/demo_cluster.sh", "#{prefix}/demo"
+    system "cp", "gpAux/gpdemo/lalshell", "#{prefix}/demo"
   end
 
   test do
