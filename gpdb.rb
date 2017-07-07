@@ -19,8 +19,22 @@ class Gpdb < Formula
   depends_on "gdb" => :optional
 
   def install
-    # ENV.deparallelize  # if your formula fails when building in parallel
+    # additional pip dependencies to run
+    system "pip", "install", "lockfile",
+                             "psi",
+                             "paramiko",
+                             "pysql",
+                             "psutil",
+                             "setuptools",
+                             "unittest2",
+                             "parse",
+                             "pexpect",
+                             "mock",
+                             "pyyaml",
+                             "git+https://github.com/behave/behave@v1.2.4",
+                             "pylint"
 
+    # ENV.deparallelize  # if your formula fails when building in parallel
     # Remove unrecognized options if warned by configure
     system "./configure", "--disable-orca",
                           "--disable-debug",
