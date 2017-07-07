@@ -5,6 +5,7 @@
 class Gpdb < Formula
   desc "Greenplum Database"
   homepage "http://greenplum.org"
+  head "https://github.com/greenplum-db/gpdb.git"
   url "https://github.com/greenplum-db/gpdb/archive/5.0.0-beta.2.tar.gz"
   sha256 "d43e62cf99cd1d2ee9b1e00ad80e4e491defe1cb7cfeecf142ecd60f88bffa29"
 
