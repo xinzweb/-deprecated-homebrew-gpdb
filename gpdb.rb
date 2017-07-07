@@ -8,13 +8,22 @@ class Gpdb < Formula
   url "https://github.com/greenplum-db/gpdb/archive/5.0.0-beta.2.tar.gz"
   sha256 "d43e62cf99cd1d2ee9b1e00ad80e4e491defe1cb7cfeecf142ecd60f88bffa29"
 
-  # depends_on "cmake" => :build
+  depends_on "cmake" => :build # orca build
+  depends_on "ninja" => :build # orca build
+  depends_on "libyaml" => :build # --enable-mapreduce
+  depends_on "libevent" => :build # gpfdist
+  depends_on "apr" => :build # gpperfmon
+  depends_on "apr-util" => :build #gppermon
+  #depends_on "go" => :build
+  depends_on "python" => :run
+  depends_on "gdb" => :optional
 
   def install
     # ENV.deparallelize  # if your formula fails when building in parallel
 
     # Remove unrecognized options if warned by configure
-    system "./configure", "--disable-debug",
+    system "./configure", "--disable-orca",
+                          "--disable-debug",
                           "--disable-dependency-tracking",
                           "--disable-silent-rules",
                           "--prefix=#{prefix}"
