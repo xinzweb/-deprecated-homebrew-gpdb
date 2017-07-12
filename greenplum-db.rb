@@ -118,10 +118,10 @@ class GreenplumDb < Formula
   end
   
   test do
-		system "source" "#{prefix}/greenplum_path.sh"
-		system "source" "#{prefix}/demo/gpdemo-env.sh"
-		system "createdb"
-    system "dropdb"
+		system "source", "#{prefix}/greenplum_path.sh"
+		system "source", "#{prefix}/demo/gpdemo-env.sh"
+		system "createdb", "test"
+    system "dropdb", "test"
   end
 end
 
