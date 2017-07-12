@@ -1,8 +1,6 @@
-# Documentation: http://docs.brew.sh/Formula-Cookbook.html
-#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
+require 'formula'
 
-class Gpdb < Formula
+class GreenplumDb < Formula
   desc "Greenplum Database"
   homepage "http://greenplum.org"
   head "https://github.com/greenplum-db/gpdb.git"
@@ -15,8 +13,8 @@ class Gpdb < Formula
   depends_on "libevent" => :build # gpfdist
   depends_on "apr" => :build # gpperfmon
   depends_on "apr-util" => :build #gppermon
-  #depends_on "go" => :build
   depends_on "python" => :run
+  depends_on "go" => :optional
   depends_on "gdb" => :optional
 
   def install
@@ -35,16 +33,13 @@ class Gpdb < Formula
                              "git+https://github.com/behave/behave@v1.2.4",
                              "pylint"
 
-    # ENV.deparallelize  # if your formula fails when building in parallel
-    # Remove unrecognized options if warned by configure
     system "./configure", "--disable-orca",
                           "--disable-debug",
                           "--disable-dependency-tracking",
                           "--disable-silent-rules",
                           "--prefix=#{prefix}"
 
-    # system "cmake", ".", *std_cmake_args
-    system "make", "install" # if this fails, try separate make/make install steps
+    system "make", "install"
     
     system "mkdir", "#{prefix}/demo"
     system "cp", "gpAux/gpdemo/demo_cluster.sh", "#{prefix}/demo"
@@ -123,15 +118,10 @@ class Gpdb < Formula
   end
   
   test do
-    # `test do` will create, run in and delete a temporary directory.
-    #
-    # This test will fail and we won't accept that! For Homebrew/homebrew-core
-    # this will need to be a test that verifies the functionality of the
-    # software. Run the test with `brew test gpdb`. Options passed
-    # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
-    #
-    # The installed folder is not in the path, so use the entire path to any
-    # executables being tested: `system "#{bin}/program", "do", "something"`.
-    system "false"
+		system "source" "#{prefix}/greenplum_path.sh"
+		system "source" "#{prefix}/demo/gpdemo-env.sh"
+		system "createdb"
+    system "dropdb"
   end
 end
+
